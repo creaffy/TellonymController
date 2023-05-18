@@ -219,4 +219,33 @@ export class TellonymService {
     });
     return await response.json();
   }
+
+  async FollowUser_ByName(username, anonymous) {
+    const user = await this.GetUser_ByName(username);
+    const body = {
+      limit: 25,
+      userId: user.id,
+      isFollowingAnonymous: anonymous,
+    };
+    const response = await fetch("https://api.tellonym.me/followings/create", {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify(body),
+    });
+    return await response.text();
+  }
+
+  async FollowUser_ById(id, anonymous) {
+    const body = {
+      limit: 25,
+      userId: id,
+      isFollowingAnonymous: anonymous,
+    };
+    const response = await fetch("https://api.tellonym.me/followings/create", {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify(body),
+    });
+    return await response.text();
+  }
 }
