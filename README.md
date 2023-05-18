@@ -3,6 +3,7 @@
 ### Example code:
 
 ```js
+// This code gets user id with a username and then sends 5 tells to that user
 import { TellonymService } from "./tellonym.js";
 
 const Token = "account token here";
@@ -18,7 +19,8 @@ for (let i = 0; i < 5; i++) {
 ```
 
 ```js
-import { TellonymService, TellonymAccountSettings } from "./tellonym.js";
+// This code fetches user info by username then changes your about me to that user's about me
+import { TellonymService } from "./tellonym.js";
 
 const Token = "account token here";
 const Client = new TellonymService(Token);
