@@ -1,21 +1,3 @@
-/*
-  aboutMe: "aboutMe", // string
-  snapchat: "snapchat", // string
-  instagram: "instagram", // string
-  twitter: "twitter", // string
-  displayName: "displayName", // string
-  gender: "gender", // string (male, female, diverse)
-  isTellsOnlyFromRegistered: "isTellsOnlyFromRegistered", // bool
-  safetyLevelSpam: "safetyLevelSpam", // int
-  safetyLevelSexHarass: "safetyLevelSexHarass", // int
-  safetyLevelInsult: "safetyLevelInsult", // int
-  email: "email", // string
-  hasAllowedEmails: "hasAllowedEmails", // bool
-  hasAllowedSearchByPhone: "hasAllowedSearchByPhone", // bool
-  hasAllowedSearchByLocation: "hasAllowedSearchByLocation", // bool
-  hasAllowedShowActivity: "hasAllowedShowActivity", // bool
-*/
-
 export class TellonymService {
   constructor(authorization) {
     this.authorization = authorization;

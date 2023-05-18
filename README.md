@@ -1,6 +1,6 @@
 # **Tellonym API Account Controller**
 
-Example code:
+### Example code:
 
 ```js
 import { TellonymService } from "./tellonym.js";
@@ -27,3 +27,21 @@ Client.GetUser_ByName("exampleusername123").then((user) => {
   Client.ChangeSettings({ aboutMe: user.aboutMe });
 });
 ```
+
+### List of account settings:
+
+- `aboutMe // string`
+- `snapchat // string`
+- `instagram // string`
+- `twitter // string`
+- `displayName // string`
+- `gender // string (male, female, diverse)`
+- `isTellsOnlyFromRegistered // bool`
+- `safetyLevelSpam // int`
+- `safetyLevelSexHarass // int`
+- `safetyLevelInsult // int`
+- `email // string`
+- `hasAllowedEmails // bool`
+- `hasAllowedSearchByPhone // bool`
+- `hasAllowedSearchByLocation // bool`
+- `hasAllowedShowActivity // bool`
