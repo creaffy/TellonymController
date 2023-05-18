@@ -248,4 +248,31 @@ export class TellonymService {
     });
     return await response.text();
   }
+
+  async UnfollowUser_ByName(username) {
+    const user = await this.GetUser_ByName(username);
+    const body = {
+      limit: 25,
+      userId: user.id,
+    };
+    const response = await fetch("https://api.tellonym.me/followings/destroy", {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify(body),
+    });
+    return await response.text();
+  }
+
+  async UnfollowUser_ById(id) {
+    const body = {
+      limit: 25,
+      userId: id,
+    };
+    const response = await fetch("https://api.tellonym.me/followings/destroy", {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify(body),
+    });
+    return await response.text();
+  }
 }
