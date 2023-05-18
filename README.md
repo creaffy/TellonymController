@@ -10,9 +10,8 @@ const Token = "account token here";
 const Client = new TellonymService(Token);
 
 const target = await Client.GetUser_ByName("exampleusername123").then(
-  (user) => {
-    user.id;
-  }
+  (user) => user.id;
+
 );
 for (let i = 0; i < 5; i++) {
   Client.SendTell_ById(target, `hi ${i}`, false);
