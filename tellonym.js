@@ -1,4 +1,4 @@
-export const TellonymAccountSettings = {
+/*
   aboutMe: "aboutMe", // string
   snapchat: "snapchat", // string
   instagram: "instagram", // string
@@ -14,7 +14,7 @@ export const TellonymAccountSettings = {
   hasAllowedSearchByPhone: "hasAllowedSearchByPhone", // bool
   hasAllowedSearchByLocation: "hasAllowedSearchByLocation", // bool
   hasAllowedShowActivity: "hasAllowedShowActivity", // bool
-};
+*/
 
 export class TellonymService {
   constructor(authorization) {
