@@ -1,0 +1,23 @@
+{
+  "name": "tellonymcontroller",
+  "version": "1.0.0",
+  "description": "_Tellonym API Account Controller_<br/>\r Features as of right now:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creaffy/TellonymController.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/creaffy/TellonymController/issues"
+  },
+  "homepage": "https://github.com/creaffy/TellonymController#readme",
+  "dependencies": {
+    "chalk": "^5.2.0"
+  }
+}
