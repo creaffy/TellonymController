@@ -3,47 +3,113 @@
 ### Example code:
 
 ```js
-// This code gets user id with a username and then sends 5 tells to that user
-import { TellonymService } from "./tellonym.js";
+import { AnswerCollector } from "../src/answerCollector.js";
+import { Client } from "../src/client.js";
 
-const Token = "account token here";
-const Client = new TellonymService(Token);
+const client = new Client("account token here");
+const target = await client.getUserByName("example123").then((user) => user.id);
+const collector = new AnswerCollector(client, target, {
+  interval: 15000,
+  limit: 5,
+  idleTimeout: 120000,
+});
 
-const target = await Client.GetUser_ByName("exampleusername123").then(
-  (user) => user.id;
+collector.collect();
 
-);
-for (let i = 0; i < 5; i++) {
-  Client.SendTell_ById(target, `hi ${i}`, false);
-}
-```
+collector.on("collected", (answer) => {
+  if (answer.answer === "hi") {
+    collector.destroy();
+  }
+});
 
-```js
-// This code fetches user info by username then changes your about me to that user's about me
-import { TellonymService } from "./tellonym.js";
-
-const Token = "account token here";
-const Client = new TellonymService(Token);
-
-Client.GetUser_ByName("exampleusername123").then((user) => {
-  Client.ChangeSettings({ aboutMe: user.aboutMe });
+collector.on("ended", (reason) => {
+  console.log(`Collector ended" ${reason}`);
 });
 ```
 
+---
+
+### List of collector options (all are optional):
+
+#### `timeout`
+
+**Info:** For how long the collector should collect (in millieseconds)</br>
+**End Reason:** "timeout"
+
+#### `idleTimeout`
+
+**Info:** After what about of time without collecting anything the collector should end (in millieseconds)</br>
+**End Reason:** "idle"
+
+#### `limit`
+
+**Info:** After how many messages the collector should end</br>
+**End Reason:** "limit"
+
+#### `interval`
+
+**Info:** Every how many millieseconds tells/answers should be fetched (defaults to 10000ms)</br>
+
+---
+
 ### List of account settings:
 
-- `aboutMe // string`
-- `snapchat // string`
-- `instagram // string`
-- `twitter // string`
-- `displayName // string`
-- `gender // string (male, female, diverse)`
-- `isTellsOnlyFromRegistered // bool`
-- `safetyLevelSpam // int`
-- `safetyLevelSexHarass // int`
-- `safetyLevelInsult // int`
-- `email // string`
-- `hasAllowedEmails // bool`
-- `hasAllowedSearchByPhone // bool`
-- `hasAllowedSearchByLocation // bool`
-- `hasAllowedShowActivity // bool`
+#### `aboutMe`
+
+**Type:** String
+
+#### `snapchat`
+
+**Type:** String
+
+#### `instagram`
+
+**Type:** String
+
+#### `twitter`
+
+**Type:** String
+
+#### `displayName`
+
+**Type:** String
+
+#### `gender`
+
+**Type:** String (only accepts male, female, diverse)
+
+#### `isTellsOnlyFromRegistered`
+
+**Type:** Boolean
+
+#### `safetyLevelSpam`
+
+**Type:** Number
+
+#### `safetyLevelSexHarass`
+
+**Type:** Number
+
+#### `safetyLevelInsult`
+
+**Type:** Number
+
+#### `email`
+
+**Type:** String
+
+#### `hasAllowedEmails`
+
+**Type:** Boolean
+
+#### `hasAllowedSearchByPhone`
+
+**Type:** Boolean
+
+#### `hasAllowedSearchByLocation`
+
+**Type:** Boolean
+
+#### `hasAllowedShowActivity`
+
+**Type:** Boolean

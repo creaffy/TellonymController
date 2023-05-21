@@ -1,142 +1,116 @@
-export class TellonymService {
-  constructor(authorization) {
-    this.authorization = authorization;
-    this.headers = {
+export class Client {
+  #headers;
+  constructor(token) {
+    this.#headers = {
       "content-type": "application/json; charset=UTF-8",
       "user-agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0",
-      authorization: authorization,
+      authorization: token,
     };
   }
 
-  async GetUser_ByName(username) {
+  async getUserByName(username) {
     const response = await fetch(
       `https://api.tellonym.me/profiles/name/${username}`,
       {
         method: "GET",
-        headers: this.headers,
+        headers: this.#headers,
       }
     );
     return await response.json();
   }
 
-  async GetUser_ById(id) {
+  async getUserById(id) {
     const response = await fetch(`https://api.tellonym.me/profiles/id/${id}`, {
       method: "GET",
-      headers: this.headers,
+      headers: this.#headers,
     });
     return await response.json();
   }
 
-  async GetBlockedUsers() {
+  async getBlockedUsers() {
     const response = await fetch("https://api.tellonym.me/blocks/list", {
       method: "GET",
-      headers: this.headers,
+      headers: this.#headers,
     });
     return await response.json();
   }
 
-  async BlockUser_ByName(username) {
-    const user = await this.GetUser_ByName(username);
-    const body = {
-      profileId: user.id,
-      limit: 25,
-    };
-    await fetch("https://api.tellonym.me/blocks/create", {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(body),
-    });
-  }
-
-  async UnblockUser_ByName(username) {
-    const user = await this.GetUser_ByName(username);
-    const body = {
-      profileId: user.id,
-      limit: 25,
-    };
-    await fetch("https://api.tellonym.me/blocks/destroy", {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(body),
-    });
-  }
-
-  async BlockUser_ById(id) {
+  async blockUser(id) {
     const body = {
       profileId: id,
       limit: 25,
     };
     await fetch("https://api.tellonym.me/blocks/create", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
   }
 
-  async UnblockUser_ById(id) {
+  async unblockUser(id) {
     const body = {
       profileId: id,
       limit: 25,
     };
     await fetch("https://api.tellonym.me/blocks/destroy", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
   }
 
-  async ChangeSettings(settings) {
+  async changeSettings(settings) {
     let body = settings;
     body.limit = 25;
     const response = await fetch("https://api.tellonym.me/accounts/settings", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
     return await response.json();
   }
 
-  async ChangeAvatar(binaryData) {
+  async changeAvatar(binaryData) {
     await fetch("https://api.tellonym.me/uploads/avatar/create", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify({ avatar: binaryData }),
     });
   }
 
-  async RemoveAvatar() {
+  async removeAvatar() {
     const body = {
       limit: 25,
     };
     await fetch("https://api.tellonym.me/uploads/avatar/destroy", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
   }
 
-  async GetBlacklistedWords() {
+  async getBlacklistedWords() {
     const response = await fetch(
       "https://api.tellonym.me/accounts/settings/badwords",
       {
         method: "GET",
-        headers: this.headers,
+        headers: this.#headers,
       }
     );
     return await response.json();
   }
 
-  async SetBlacklistedWords(words) {
+  async setBlacklistedWords(words) {
     const body = { badwords: words, limit: 25 };
     await fetch("https://api.tellonym.me/accounts/settings/badwords", {
       method: "PUT",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
   }
 
-  async ChangePassword(oldPassword, newPassword) {
+  async changePassword(oldPassword, newPassword) {
     const body = {
       limit: 25,
       passwordOld: oldPassword,
@@ -146,51 +120,34 @@ export class TellonymService {
       "https://api.tellonym.me/accounts/changepassword",
       {
         method: "POST",
-        headers: this.headers,
+        headers: this.#headers,
         query: JSON.stringify(body),
       }
     );
     return await response.json();
   }
 
-  async SearchUsers(query) {
+  async searchUsers(query) {
     const response = await fetch(
       `https://api.tellonym.me/search/users?term=${query}&searchString=${query}`,
       {
         method: "GET",
-        headers: this.headers,
+        headers: this.#headers,
       }
     );
     return await response.json();
   }
 
-  async DeleteAccount() {
+  async deleteAccount() {
     const response = await fetch("https://api.tellonym.me/accounts/destroy", {
       method: "POST",
       body: JSON.stringify({ limit: 25 }),
-      headers: this.headers,
+      headers: this.#headers,
     });
     return await response.text();
   }
 
-  async SendTell_ByName(username, tell, anonymous) {
-    const user = await this.GetUser_ByName(username);
-    const body = {
-      isInstagramInAppBrowser: false,
-      isSnapchatInAppBrowser: false,
-      isSenderRevealed: !anonymous,
-      tell: tell,
-      userId: user.id,
-      limit: 25,
-    };
-    await fetch("https://api.tellonym.me/tells/new", {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(body),
-    });
-  }
-
-  async SendTell_ById(id, tell, anonymous) {
+  async sendTell(id, tell, anonymous) {
     const body = {
       isInstagramInAppBrowser: false,
       isSnapchatInAppBrowser: false,
@@ -201,12 +158,12 @@ export class TellonymService {
     };
     await fetch("https://api.tellonym.me/tells/new", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
   }
 
-  async AnswerTell(id, answer) {
+  async answerTell(id, answer) {
     const body = {
       tellId: String(id),
       answer: answer,
@@ -214,28 +171,13 @@ export class TellonymService {
     };
     const response = await fetch("https://api.tellonym.me/answers/create", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
     return await response.json();
   }
 
-  async FollowUser_ByName(username, anonymous) {
-    const user = await this.GetUser_ByName(username);
-    const body = {
-      limit: 25,
-      userId: user.id,
-      isFollowingAnonymous: anonymous,
-    };
-    const response = await fetch("https://api.tellonym.me/followings/create", {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(body),
-    });
-    return await response.text();
-  }
-
-  async FollowUser_ById(id, anonymous) {
+  async followUser(id, anonymous) {
     const body = {
       limit: 25,
       userId: id,
@@ -243,36 +185,38 @@ export class TellonymService {
     };
     const response = await fetch("https://api.tellonym.me/followings/create", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
     return await response.text();
   }
 
-  async UnfollowUser_ByName(username) {
-    const user = await this.GetUser_ByName(username);
-    const body = {
-      limit: 25,
-      userId: user.id,
-    };
-    const response = await fetch("https://api.tellonym.me/followings/destroy", {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(body),
-    });
-    return await response.text();
-  }
-
-  async UnfollowUser_ById(id) {
+  async unfollowUser(id) {
     const body = {
       limit: 25,
       userId: id,
     };
     const response = await fetch("https://api.tellonym.me/followings/destroy", {
       method: "POST",
-      headers: this.headers,
+      headers: this.#headers,
       body: JSON.stringify(body),
     });
     return await response.text();
+  }
+
+  async getTells() {
+    const response = await fetch("https://api.tellonym.me/tells", {
+      method: "GET",
+      headers: this.#headers,
+    });
+    return await response.json();
+  }
+
+  async getSelf() {
+    const response = await fetch("https://api.tellonym.me/accounts/myself", {
+      method: "GET",
+      headers: this.#headers,
+    });
+    return await response.json();
   }
 }
